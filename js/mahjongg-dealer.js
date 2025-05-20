@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function shuffleAndDeal(numTiles) {
         const shuffledDeck = shuffleDeck(fullDeck);
         const dealtHand = shuffledDeck.slice(0, numTiles);
+        fullDeck = shuffledDeck.slice(numTiles); // Update fullDeck
         return dealtHand;
     }
 
@@ -124,6 +125,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         currentHand = shuffleAndDeal(numTiles);
         displayHand(currentHand);
+
+        if (remainingTilesP) { // Update remaining tiles count
+            const remainingInDeck = fullDeck.length;
+            remainingTilesP.textContent = `Tiles remaining: ${remainingInDeck}`;
+        }
+        updateDealButtonStates(); // Update button states
+    }
+
+    // Function to handle resetting the deck and game state
+    function handleResetDeck() {
+        fullDeck = createFullDeck(); // Re-initialize the deck
+        currentHand = []; // Clear the current hand array
+
+        const dealtHandContainer = document.getElementById('dealt-hand-container');
+        if (dealtHandContainer) {
+            dealtHandContainer.innerHTML = ''; // Clear the displayed hand
+        }
+
+        if (remainingTilesP) { // Update remaining tiles count
+            remainingTilesP.textContent = `Tiles remaining: ${fullDeck.length}`;
+        }
+        console.log('Deck reset. New game ready.');
+        updateDealButtonStates(); // Update button states
+    }
+
+    // Function to update the enabled/disabled state of deal buttons
+    function updateDealButtonStates() {
+        if (deal13Button) {
+            deal13Button.disabled = fullDeck.length < 13;
+        }
+        if (deal14Button) {
+            deal14Button.disabled = fullDeck.length < 14;
+        }
     }
 
     // Helper function to get sort keys for Sort Type 1 (Suit then Rank)
@@ -206,6 +240,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const deal13Button = document.getElementById('deal-13-btn');
     const deal14Button = document.getElementById('deal-14-btn');
+    const remainingTilesP = document.getElementById('remaining-tiles-p'); // Get the new paragraph
+    const resetDeckButton = document.getElementById('reset-deck-btn'); // Get the reset button
+
+    if (remainingTilesP) { // Set initial count
+        remainingTilesP.textContent = `Tiles remaining: ${fullDeck.length}`;
+    }
+    updateDealButtonStates(); // Set initial button states
 
     if (deal13Button) {
         deal13Button.addEventListener('click', () => handleDeal(13));
@@ -213,6 +254,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (deal14Button) {
         deal14Button.addEventListener('click', () => handleDeal(14));
+    }
+
+    if (resetDeckButton) {
+        resetDeckButton.addEventListener('click', handleResetDeck);
     }
 
     // Event listeners for sort buttons
