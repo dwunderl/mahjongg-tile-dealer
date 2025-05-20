@@ -81,10 +81,26 @@ header h1 {
     user-select: none; /* Prevent text selection on tiles */
 }
 
+.tile-rank,
+.tile-suit-suffix {
+    display: block; /* Ensure they take full width to center text */
+    text-align: center; /* Center the text within each span */
+    width: 100%;
+}
+
+.tile-rank {
+    font-size: 1.2em; /* Slightly larger for the number */
+    margin-bottom: 2px; /* Small space between rank and suit */
+}
+
+.tile-suit-suffix {
+    font-size: 0.7em; /* Smaller for the suffix */
+}
+
 /* Placeholder for specific tile styles - we will add these later */
-.tile-crak { color: #c00; /* Darker Red for Craks */ }
+.tile-crack { color: #c00; /* Darker Red for Craks */ }
 .tile-bam { color: #060;  /* Darker Green for Bams */ }
-.tile-dot { color: #009;  /* Darker Blue for Dots */ }
+.tile-dot { color: #000;  /* Black for Dots */ }
 .tile-wind { 
     color: #000; /* Black text */ 
     font-weight: bold; 
